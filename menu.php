@@ -23,13 +23,13 @@ class Menu{
         echo $response;
     }
 
-    public function registerMenu(){}
+    public function registerMenu($textArray){}
 
-    public function sendMoneyMenu(){}
+    public function sendMoneyMenu($textArray){}
 
-    public function withdrawMoneyMenu(){}
+    public function withdrawMoneyMenu($textArray){}
 
-    public function checkBalanceMenu(){}
+    public function checkBalanceMenu($textArray){}
 }
 
 

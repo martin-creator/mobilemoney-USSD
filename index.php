@@ -23,10 +23,30 @@ if ($text == "" && !$isRegistered) {
 
 }else if( $isRegistered ){
 // user is not registered and string is not empty
-
+    $textArray = explode("*", $text);
+    switch($textArray[0]){
+        case 1:
+            $menu->registerMenu($textArray);
+            break;
+        default:
+            "END Invalid choice. Please try again";
+    }
 }else{
 // user is registered and string is not empty
-
+    $textArray = explode("*", $text);
+    switch($textArray[0]){
+        case 1:
+            $menu->sendMoneyMenu($textArray);
+            break;
+        case 2:
+            $menu->withdrawMoneyMenu($textArray);
+            break;
+        case 3:
+           $menu->checkBalanceMenu($textArray); 
+            break;
+        default:
+            "END Invalid choice. Please try again";
+    }
 }
 
 /*else if ($text == "1") {
