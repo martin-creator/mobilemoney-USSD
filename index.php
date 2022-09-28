@@ -10,7 +10,7 @@ $serviceCode = $_POST["serviceCode"];
 $phoneNumber = $_POST["phoneNumber"];
 $text        = $_POST["text"]; // this is what the user send back
 
-$isRegistered = true;
+$isRegistered = false;
 $menu = new Menu($text, $sessionId);
 
 if ($text == "" && !$isRegistered) {

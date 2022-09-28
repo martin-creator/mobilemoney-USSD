@@ -57,7 +57,7 @@ class Menu{
         }else if($level == 3){
             echo "CON Enter your PIN";
         }else if ($level == 4){
-            $response = "CON Send". " " . $textArray[2] . " " . $textArray[1]. "\n";
+            $response = "CON Send". " " . $textArray[2] . " to " . $textArray[1]. "\n";
             $response .= "1.Confirm\n";
             $response .= "2. Cancel \n";
             $response .= Util::$GO_BACK . "Back\n";
@@ -68,7 +68,7 @@ class Menu{
             //send the money
             //check if pin is correct
             // If you have enough funds including charges
-            echo "END Thank you for using our service";
+            echo "END Your request is being processed";
         }else if($level == 5 && $textArray[4] == 2){
             //cancel
             echo "END Thank you for using our service";
@@ -82,7 +82,25 @@ class Menu{
 
     }
 
-    public function withdrawMoneyMenu($textArray){}
+    public function withdrawMoneyMenu($textArray){
+        $level = count($textArray);
+        if($level == 1){
+            echo "CON Enter agent number";
+        }else if($level == 2){
+            echo "CON Enter amount";
+        }else if($level == 3){
+            echo "CON Enter yout PIN";
+        }else if($level == 4){
+            echo "CON Withdraw" . $textArray[2].  "from agent ". $textArray[1]. "\n 1. Confirm\n 2. Cancel\n";
+        }else if($level == 5 && $textArray[4] == 1){
+            // confirm
+            echo "END Your request is being processed";
+        }else if($level == 5 && $textArray[4] == 2){
+            echo "END Thank you!";
+        }else{
+            echo "END Invalid Entry";
+        }
+    }
 
     public function checkBalanceMenu($textArray){}
 }
