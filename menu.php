@@ -1,4 +1,5 @@
 <?php 
+include_once 'util.php';
 class Menu{
     protected $text;
     protected $sessionId;
