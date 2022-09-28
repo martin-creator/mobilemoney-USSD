@@ -25,19 +25,19 @@ class Menu{
 
     public function registerMenu($textArray){
         $level = count($textArray); // This counts number of items in array
-        if($level == 0){
+        if($level == 1){
             echo " CON Please enter your full name";
         }else if($level == 2){
             echo " CON Please set your PIN";
         }else if($level == 3){
-            echo "Please re-enter your PIN";
+            echo " CON Please re-enter your PIN";
         }else if($level == 4){
             $name = $textArray[1];
             $pin = $textArray[2];
             $confirmPin = $textArray[3];
 
             if($pin != $confirmPin){
-                echo " Your pins dont match please try again";
+                echo " END Your pins dont match please try again";
             }else{
                 // register the user
                 // send sms

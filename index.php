@@ -1,6 +1,6 @@
 <?php
 
-// https://4816-197-239-4-211.eu.ngrok.io/momo/index.php
+//   https://bb2b-197-239-4-111.in.ngrok.io/momo/index.php
 
 include_once 'menu.php';
 
@@ -69,7 +69,7 @@ if ($text == "" && !$isRegistered) {
 }*/
 
 // Echo the response back to the API
-header('Content-type: text/plain');
+//header('Content-type: text/plain');
 //echo $response;
 
 ?>
