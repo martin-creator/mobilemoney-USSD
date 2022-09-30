@@ -41,14 +41,33 @@
         }
 
         public function register($pdo){
+            try{
+                //hash pin
+                $hashedPin = password_hash($this->getPin(), PASSWORD_DEFAULT);
+                $stmt = $pdo->prepare("INSERT INTO user (name, pin, phone, balance) values(?,?,?,?)");
+                $stmt->execute([$this->getName(), $hashedPin, $this->getPhone(), $this->getBalance()]);
+
+            }catch(PDOException $e){
+                echo $e->getMessage();
+            }
 
         }
 
         public function isUserRegistered($pdo){
-            
+            $stmt = $pdo->prepare("SELECT * FROM user WHERE phone=?");
+            $stmt->execute([$this->getPhone()]);
+            if(count($stmt->fetchAll()) > 0){
+                return true;
+            }else{
+                return false;
+            }
         }
 
         public function readName($pdo){
+            $stmt = $pdo->prepare("SELECT * FROM user WHERE phone=?");
+            $stmt->execute([$this->getPhone()]);
+            $row = $stmt->fetch();
+            return $row['name'];
             
         }
 
