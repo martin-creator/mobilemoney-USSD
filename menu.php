@@ -4,11 +4,7 @@ class Menu{
     protected $text;
     protected $sessionId;
     
-    function __construct($text, $sessionId)
-    {
-        $this->text = $text;
-        $this->sessionId = $sessionId;
-    }
+    function __construct(){}
 
     public function mainMenuRegistered(){
         $response = "CON Reply with \n";
@@ -106,13 +102,30 @@ class Menu{
         $level = count($textArray);
         if($level == 1){
             echo "CON Enter PIN";
-        }else if($level == 1){
+        }else if($level == 2){
             //logic
             //check PIN validity
-            echo "CON We are processing your request and you will recieve a confirmation SMS shortly";
+            echo "END We are processing your request and you will recieve a confirmation SMS shortly";
         }else{
             echo "END Invalid entry";
         }
+    }
+
+    public function middleware($text){
+        // remove entries for going back and going to the main menu
+        return $this->goBack($this->goToMainMenu($text));
+    }
+
+    public function goBack($text){}
+
+    public function goToMainMenu($text){
+        //1*2*5*8*999
+        $explodedText = explode("*", $text);
+        while(array_search(Util::$GO_TO_MAIN_MENU, $explodedText) != false){
+            $firstIndex = array_search(Util::$GO_TO_MAIN_MENU, $explodedText);
+            $explodedText = array_slice($explodedText, $firstIndex + 1);
+        }
+        return join("*", $explodedText);
     }
 }
 

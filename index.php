@@ -11,7 +11,9 @@ $phoneNumber = $_POST["phoneNumber"];
 $text        = $_POST["text"]; // this is what the user send back
 
 $isRegistered = false;
-$menu = new Menu($text, $sessionId);
+
+$menu = new Menu();
+$text = $menu->middleware($text);
 
 if ($text == "" && !$isRegistered) {
     // user is registered and string is empty. Note how we start the response with CON
