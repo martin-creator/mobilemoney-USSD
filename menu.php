@@ -116,10 +116,20 @@ class Menu{
         return $this->goBack($this->goToMainMenu($text));
     }
 
-    public function goBack($text){}
+    public function goBack($text){
+        //1*2*5*8*98*5*6*5*
+        $explodedText = explode("*", $text);
+        while(array_search(Util::$GO_BACK, $explodedText) != false){
+            $firstIndex = array_search(Util::$GO_BACK, $explodedText);
+            array_splice($explodedText, $firstIndex - 1, 2);
+        }
+
+        return join("*", $explodedText);
+
+    }
 
     public function goToMainMenu($text){
-        //1*2*5*8*999
+        //1*2*5*8*99*5*6*5*99
         $explodedText = explode("*", $text);
         while(array_search(Util::$GO_TO_MAIN_MENU, $explodedText) != false){
             $firstIndex = array_search(Util::$GO_TO_MAIN_MENU, $explodedText);
