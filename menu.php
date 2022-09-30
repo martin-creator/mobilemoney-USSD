@@ -1,13 +1,15 @@
 <?php 
 include_once 'util.php';
+include_once 'user.php';
+
 class Menu{
     protected $text;
     protected $sessionId;
     
     function __construct(){}
 
-    public function mainMenuRegistered(){
-        $response = "CON Reply with \n";
+    public function mainMenuRegistered($name){
+        $response = "CON Welcome " . $name.  "\n";
         $response .= "1. Send money\n";
         $response .= "2. Withdraw\n";
         $response .= "3. Check balance\n";
@@ -20,7 +22,7 @@ class Menu{
         echo $response;
     }
 
-    public function registerMenu($textArray){
+    public function registerMenu($textArray,$phoneNumber, $pdo){
         $level = count($textArray); // This counts number of items in array
         if($level == 1){
             echo " CON Please enter your full name";
@@ -38,6 +40,11 @@ class Menu{
             }else{
                 // register the user
                 // send sms
+                $user = new User($phoneNumber);
+                $user->setName($name);
+                $user->setPin($pin);
+                $user->setBalance(Util::$USER_BALANCE);
+                $user->register($pdo);
                 echo "END  You have been registered";
             }
         }

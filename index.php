@@ -3,6 +3,8 @@
 //   https://bb2b-197-239-4-111.in.ngrok.io/momo/index.php
 
 include_once 'menu.php';
+include_once 'db.php';
+include_once 'user.php';
 
 // Read the variables sent via POST from our API
 $sessionId   = $_POST["sessionId"]; // id that identifies each users session * one user can have many sessions
@@ -10,25 +12,27 @@ $serviceCode = $_POST["serviceCode"];
 $phoneNumber = $_POST["phoneNumber"];
 $text        = $_POST["text"]; // this is what the user send back
 
-$isRegistered = false;
+$user = new User($phoneNumber); //$isRegistered = true;
+$db = new DBConnector();
+$pdo = $db->connectToDB();
 
 $menu = new Menu();
 $text = $menu->middleware($text);
 
-if ($text == "" && !$isRegistered) {
+if ($text == "" && $user->isUserRegistered($pdo)) {
     // user is registered and string is empty. Note how we start the response with CON
-    $menu->mainMenuRegistered();
+    $menu->mainMenuRegistered($user->readName($pdo));
 
-} else if( $text == "" &&  $isRegistered){
+} else if( $text == "" &&  !$user->isUserRegistered($pdo)){
   // user is not registered and string is empty
   $menu->mainMenuUnRegistered();
 
-}else if( $isRegistered ){
+}else if( !$user->isUserRegistered($pdo) ){
 // user is not registered and string is not empty
     $textArray = explode("*", $text);
     switch($textArray[0]){
         case 1:
-            $menu->registerMenu($textArray);
+            $menu->registerMenu($textArray, $phoneNumber, $pdo);
             break;
         default:
             "END Invalid choice. Please try again";
