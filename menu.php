@@ -148,7 +148,7 @@ class Menu{
             $user->setPin($textArray[1]);
 
             if($user->correctPin($pdo) == true){
-                echo "END Your wallet balance is". $user->checkBalance($pdo) . //send sms
+                echo "END Your wallet balance is ". $user->checkBalance($pdo); //send sms
             }else{
                 echo " END Wrong PIN"; //send sms
             }
