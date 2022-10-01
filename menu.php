@@ -1,6 +1,8 @@
 <?php 
 include_once 'util.php';
 include_once 'user.php';
+//include_once 'util.php';
+include_once 'transactions.php';
 
 class Menu{
     protected $text;
@@ -50,9 +52,11 @@ class Menu{
         }
     }
 
-    public function sendMoneyMenu($textArray){
+    public function sendMoneyMenu($textArray, $sender, $pdo, $sessionId){
         $level = count($textArray); 
-
+        $receiver = null;
+        $nameOfReceiver = null;
+        $response = "";
         if($level == 1){
             echo "CON Enter mobile number of the receiver";
         }else if($level ==2 ){
@@ -60,18 +64,43 @@ class Menu{
         }else if($level == 3){
             echo "CON Enter your PIN";
         }else if ($level == 4){
-            $response = "CON Send". " " . $textArray[2] . " to " . $textArray[1]. "\n";
+            $receiverMobile = $textArray[1];
+            $receiverMobileWithCountryCode = $this->addCountryCodeToPhoneNumber($receiverMobile);
+            $receiver = new User($receiverMobileWithCountryCode);
+            $nameOfReceiver = $receiver->readName($pdo);
+            $response .= "CON Send". " " . $textArray[2] . " to " . $nameOfReceiver . " - ". $receiverMobile . "\n";
             $response .= "1.Confirm\n";
             $response .= "2. Cancel \n";
             $response .= Util::$GO_BACK . "Back\n";
             $response .= Util::$GO_TO_MAIN_MENU . "Main Menu\n";
-            echo $response;
+            echo "CON" .$response;
         }else if($level == 5 && $textArray[4] == 1){
             // confirm
             //send the money
             //check if pin is correct
             // If you have enough funds including charges
-            echo "END Your request is being processed";
+            $pin = $textArray[3];
+            $amount = $textArray[2];
+            $ttype = "send";
+            $receiver = new User($this->addCountryCodeToPhoneNumber($textArray[1]));
+            $sender->setPin($pin);
+            $newSenderBalance = $sender->checkBalance($pdo) - $amount - Util::$TRANSACTION_FEE;
+            $newReceiverBalance = $receiver->checkBalance($pdo) + $amount;
+
+            if($sender->correctPin($pdo) == false){
+                echo "END Wrong PIN";
+                //send sms as well
+            }else{
+                $txn = new Transaction($amount, $ttype);
+                $result = $txn->sendMoney($pdo, $sender->readUserId($pdo), $receiver->readUserId($pdo), $newReceiverBalance, $newReceiverBalance);
+
+                if($receiver == true){
+                    echo " END We are processing your request. You will receive a confirmation message";
+                    //send SMS as well
+                }else{
+                    echo "CON " . $result;
+                }
+            }
         }else if($level == 5 && $textArray[4] == 2){
             //cancel
             echo "END Thank you for using our service";
