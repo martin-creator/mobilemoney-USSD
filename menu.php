@@ -118,9 +118,9 @@ class Menu{
         }
     }
 
-    public function middleware($text){
+    public function middleware($text, $user, $sessionId, $pdo){
         // remove entries for going back and going to the main menu
-        return $this->goBack($this->goToMainMenu($text));
+        return $this->invalidEntry($this->goBack($this->goToMainMenu($text)), $user,$sessionId, $pdo);
     }
 
     public function goBack($text){
@@ -148,8 +148,28 @@ class Menu{
     public function persistInvalidEntry($sessionId, $user, $ussdLevel, $pdo){
         //ussdsession table in the database holds all invalid entries
         $stmt = $pdo->prepare("INSERT INTO ussdsession (sessionID,uid, ussdLevel) values (?,?,?)");
-        $stmt->execute($sessionId, $user->readUserId($pdo), $ussdLevel);
+        $stmt->execute([$sessionId, $user->readUserId($pdo), $ussdLevel]);
         $stmt = null;
+    }
+
+    public function invalidEntry($ussdStr, $user, $sessionId, $pdo){
+        $stmt = $pdo->prepare("SELECT ussdLevel FROM ussdsession WHERE sessionId=? AND uid =? ");
+        $sessionId->execute([$sessionId, $user->readUserId($pdo)]);
+        $result = $stmt->fetchAll();
+
+        if(count($result) == 0 ){
+            return $ussdStr;
+        }
+
+        $strArray = explode("*", $ussdStr);
+
+        foreach($result as $value){
+            unset($strArray[$value['ussdLevel']]);
+        }
+
+        $strArray = array_values($strArray);
+
+        return join("*", $strArray);
     }
 }
 

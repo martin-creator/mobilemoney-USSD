@@ -17,7 +17,7 @@ $db = new DBConnector();
 $pdo = $db->connectToDB();
 
 $menu = new Menu();
-$text = $menu->middleware($text);
+$text = $menu->middleware($text, $user, $sessionId, $pdo);
 
 if ($text == "" && $user->isUserRegistered($pdo)) {
     // user is registered and string is empty. Note how we start the response with CON
