@@ -15,7 +15,7 @@ class Util{
     static $USER_BALANCE = 4000;
 
     //country code
-    static $COUNTRY_CODE = "+241";
+    static $COUNTRY_CODE = "+256";
 
     //transaction fee
     static $TRANSACTION_FEE = 50;

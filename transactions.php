@@ -22,7 +22,7 @@
             try{
                 $pdo->beginTransaction();
                 $stmtT = $pdo->prepare("INSERT INTO transaction (amount, uid, ruid, ttype) values(?,?,?,?)");
-                $stmtU = $pdo->prepare("UPDATE user SET balance=? WHERE  where uid=? ");
+                $stmtU = $pdo->prepare("UPDATE user SET balance=? WHERE  uid=? ");
 
                 $stmtT->execute([$this->getAmount(), $uid, $ruid, $this->getTType()]);
                 $stmtU->execute([$newSenderBalance, $uid]); //update sender balance

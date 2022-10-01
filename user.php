@@ -79,7 +79,7 @@
             
         }
 
-        public function connectPin($pdo){
+        public function correctPin($pdo){
             $stmt = $pdo->prepare("SELECT pin FROM user WHERE phone=?");
             $stmt->execute([$this->getphone()]);
             $row = $stmt->fetch();

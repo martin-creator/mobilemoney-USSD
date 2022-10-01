@@ -68,12 +68,12 @@ class Menu{
             $receiverMobileWithCountryCode = $this->addCountryCodeToPhoneNumber($receiverMobile);
             $receiver = new User($receiverMobileWithCountryCode);
             $nameOfReceiver = $receiver->readName($pdo);
-            $response .= "CON Send". " " . $textArray[2] . " to " . $nameOfReceiver . " - ". $receiverMobile . "\n";
+            $response .= "Send". " " . $textArray[2] . " to " . $nameOfReceiver . " - ". $receiverMobile . "\n";
             $response .= "1.Confirm\n";
             $response .= "2. Cancel \n";
             $response .= Util::$GO_BACK . "Back\n";
             $response .= Util::$GO_TO_MAIN_MENU . "Main Menu\n";
-            echo "CON" .$response;
+            echo "CON " .$response;
         }else if($level == 5 && $textArray[4] == 1){
             // confirm
             //send the money
@@ -92,7 +92,7 @@ class Menu{
                 //send sms as well
             }else{
                 $txn = new Transaction($amount, $ttype);
-                $result = $txn->sendMoney($pdo, $sender->readUserId($pdo), $receiver->readUserId($pdo), $newReceiverBalance, $newReceiverBalance);
+                $result = $txn->sendMoney($pdo, $sender->readUserId($pdo), $receiver->readUserId($pdo), $newSenderBalance, $newReceiverBalance);
 
                 if($receiver == true){
                     echo " END We are processing your request. You will receive a confirmation message";
