@@ -48,7 +48,7 @@ if ($text == "" && $user->isUserRegistered($pdo)) {
             $menu->withdrawMoneyMenu($textArray, $sessionId, $user, $pdo);
             break;
         case 3:
-           $menu->checkBalanceMenu($textArray); 
+           $menu->checkBalanceMenu($textArray, $user, $pdo); 
             break;
         default:
             $ussdLevel = count($textArray)- 1;

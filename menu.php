@@ -137,14 +137,22 @@ class Menu{
         }
     }
 
-    public function checkBalanceMenu($textArray){
+    public function checkBalanceMenu($textArray, $user, $pdo){
         $level = count($textArray);
         if($level == 1){
             echo "CON Enter PIN";
         }else if($level == 2){
             //logic
             //check PIN validity
-            echo "END We are processing your request and you will recieve a confirmation SMS shortly";
+            //$pin = $textArray[1]
+            $user->setPin($textArray[1]);
+
+            if($user->correctPin($pdo) == true){
+                echo "END Your wallet balance is". $user->checkBalance($pdo) . //send sms
+            }else{
+                echo " END Wrong PIN"; //send sms
+            }
+
         }else{
             echo "END Invalid entry";
         }
