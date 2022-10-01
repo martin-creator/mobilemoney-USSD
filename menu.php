@@ -4,6 +4,7 @@ include_once 'user.php';
 //include_once 'util.php';
 include_once 'transactions.php';
 include_once 'agent.php';
+include_once 'sms.php';
 
 class Menu{
     protected $text;
@@ -173,7 +174,15 @@ class Menu{
             $user->setPin($textArray[1]);
 
             if($user->correctPin($pdo) == true){
-                echo "END Your wallet balance is ". $user->checkBalance($pdo); //send sms
+                $msg = "END Your wallet balance is ". $user->checkBalance($pdo). "  Thank you for using this service"; //send sms
+                $sms = new Sms($user->getPhone());
+                $result = $sms->sendSMS($msg);
+
+                if($result['status' == "Success"]){
+                    echo "END You will receive an SMS shortly" ; 
+                }else{
+                    echo "END There was an error please try again"; 
+                }
             }else{
                 echo " END Wrong PIN"; //send sms
             }
