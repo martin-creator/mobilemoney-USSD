@@ -21,7 +21,7 @@ $text = $menu->middleware($text);
 
 if ($text == "" && $user->isUserRegistered($pdo)) {
     // user is registered and string is empty. Note how we start the response with CON
-    $menu->mainMenuRegistered($user->readName($pdo));
+    echo "CON". $menu->mainMenuRegistered($user->readName($pdo));
 
 } else if( $text == "" &&  !$user->isUserRegistered($pdo)){
   // user is not registered and string is empty
@@ -51,7 +51,7 @@ if ($text == "" && $user->isUserRegistered($pdo)) {
            $menu->checkBalanceMenu($textArray); 
             break;
         default:
-            "END Invalid choice. Please try again";
+            echo "CON Invalid Menu\n" . $menu->mainMenuRegistered($user->readName($pdo));
     }
 }
 

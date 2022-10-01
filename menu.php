@@ -9,11 +9,11 @@ class Menu{
     function __construct(){}
 
     public function mainMenuRegistered($name){
-        $response = "CON Welcome " . $name.  "\n";
+        $response = "Welcome " . $name.  "\n";
         $response .= "1. Send money\n";
         $response .= "2. Withdraw\n";
         $response .= "3. Check balance\n";
-        echo $response;
+        return $response;
     }
 
     public function mainMenuUnRegistered(){

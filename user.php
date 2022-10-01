@@ -21,7 +21,7 @@
         }
 
         public function getPhone(){
-            $this->phone;
+           return $this->phone;
         }
 
         public function setPin($pin){

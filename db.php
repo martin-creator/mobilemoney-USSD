@@ -13,7 +13,7 @@ class DBConnector{
       
       try{
         $this->pdo = new PDO($dsn, Util::$DB_USER, Util::$DB_USER_PASS, $options);
-        echo "DB connection established";
+        //echo "DB connection established";
       }catch(PDOException $e){
         echo $e->getMessage();
       }
