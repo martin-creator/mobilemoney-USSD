@@ -50,6 +50,9 @@
            return join(",", $recipients);
         }
 
+
+        #####################################################################################################################################################
+
         public function subscribeUser ($pdo, $shortcode, $keyword){
             $stmt = $pdo->prepare('insert into subscribers (phoneNumber, shortcode,keyword,isActive) values(?,?,?,?)');
             $stmt->execute([$this->getPhone(), $shortcode, $keyword, 1]);
