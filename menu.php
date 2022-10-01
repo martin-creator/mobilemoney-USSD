@@ -179,14 +179,14 @@ class Menu{
 
     public function persistInvalidEntry($sessionId, $user, $ussdLevel, $pdo){
         //ussdsession table in the database holds all invalid entries
-        $stmt = $pdo->prepare("INSERT INTO ussdsession (sessionID,uid, ussdLevel) values (?,?,?)");
-        $stmt->execute([$sessionId, $user->readUserId($pdo), $ussdLevel]);
+        $stmt = $pdo->prepare("INSERT INTO ussdsession (sessionID, ussdLevel) values (?,?)");
+        $stmt->execute([$sessionId, $ussdLevel]);
         $stmt = null;
     }
 
     public function invalidEntry($ussdStr, $user, $sessionId, $pdo){
-        $stmt = $pdo->prepare("SELECT ussdLevel FROM ussdsession WHERE sessionId=? AND uid =? ");
-        $stmt->execute([$sessionId, $user->readUserId($pdo)]);
+        $stmt = $pdo->prepare("SELECT ussdLevel FROM ussdsession WHERE sessionId=?  ");
+        $stmt->execute([$sessionId]);
         $result = $stmt->fetchAll();
 
         if(count($result) == 0 ){
