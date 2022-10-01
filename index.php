@@ -35,7 +35,7 @@ if ($text == "" && $user->isUserRegistered($pdo)) {
             $menu->registerMenu($textArray, $phoneNumber, $pdo);
             break;
         default:
-            "END Invalid choice. Please try again";
+            "END Invalid choice. Please try again"; //handle invalid entry
     }
 }else{
 // user is registered and string is not empty
@@ -45,7 +45,7 @@ if ($text == "" && $user->isUserRegistered($pdo)) {
             $menu->sendMoneyMenu($textArray);
             break;
         case 2:
-            $menu->withdrawMoneyMenu($textArray);
+            $menu->withdrawMoneyMenu($textArray, $sessionId, $user, $pdo);
             break;
         case 3:
            $menu->checkBalanceMenu($textArray); 

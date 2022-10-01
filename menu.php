@@ -85,7 +85,7 @@ class Menu{
 
     }
 
-    public function withdrawMoneyMenu($textArray){
+    public function withdrawMoneyMenu($textArray,$sessionId, $user, $pdo){
         $level = count($textArray);
         if($level == 1){
             echo "CON Enter agent number";
@@ -101,7 +101,10 @@ class Menu{
         }else if($level == 5 && $textArray[4] == 2){
             echo "END Thank you!";
         }else{
-            echo "END Invalid Entry";
+            //echo "END Invalid Entry";
+            $ussdLevel = count($textArray)- 1;
+            $this->persistInvalidEntry($sessionId, $user, $ussdLevel, $pdo);
+            echo "CON Invalid Menu\n" . $this->withdrawMoneyMenu($textArray, $sessionId,$user,$pdo);
         }
     }
 
@@ -154,7 +157,7 @@ class Menu{
 
     public function invalidEntry($ussdStr, $user, $sessionId, $pdo){
         $stmt = $pdo->prepare("SELECT ussdLevel FROM ussdsession WHERE sessionId=? AND uid =? ");
-        $sessionId->execute([$sessionId, $user->readUserId($pdo)]);
+        $stmt->execute([$sessionId, $user->readUserId($pdo)]);
         $result = $stmt->fetchAll();
 
         if(count($result) == 0 ){

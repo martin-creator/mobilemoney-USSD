@@ -75,16 +75,31 @@
             $stmt = $pdo->prepare("SELECT uid  FROM user WHERE phone=?");
             $stmt->execute([$this->getPhone()]);
             $row = $stmt->fetch(); // pick the row that is going to be returned
-            return $row['uid'];
+            return $row['uid'] ?? 'default value';
             
         }
 
         public function connectPin($pdo){
+            $stmt = $pdo->prepare("SELECT pin FROM user WHERE phone=?");
+            $stmt->execute([$this->getphone()]);
+            $row = $stmt->fetch();
+            if($row == null){
+                return false;
+            }
+
+            if(password_verify($this->getPin(), $row['pin'])){
+                return true;
+            }
+
+            return false;
             
         }
 
         public function checkBalance($pdo){
-            
+            $stmt = $pdo->prepare("SELECT balance  FROM user WHERE phone=?");
+            $stmt->execute([$this->getphone()]);
+            $row = $stmt->fetch();
+            return $row['balance'];
         }
 
     }
