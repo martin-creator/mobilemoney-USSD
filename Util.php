@@ -13,6 +13,9 @@ class Util{
 
     //user intial balance
     static $USER_BALANCE = 4000;
+
+    //country code
+    static $COUNTRY_CODE = "+241";
 }
 
 

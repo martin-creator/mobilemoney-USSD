@@ -174,6 +174,10 @@ class Menu{
 
         return join("*", $strArray);
     }
+
+    public function addCountryCodeToPhoneNumber($phone){
+        return Util::$COUNTRY_CODE . substr($phone, 1);
+    }
 }
 
 
