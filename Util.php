@@ -16,6 +16,9 @@ class Util{
 
     //country code
     static $COUNTRY_CODE = "+241";
+
+    //transaction fee
+    static $TRANSACTION_FEE = 50;
 }
 
 
