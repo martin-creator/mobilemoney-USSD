@@ -51,6 +51,8 @@ if ($text == "" && $user->isUserRegistered($pdo)) {
            $menu->checkBalanceMenu($textArray); 
             break;
         default:
+            $ussdLevel = count($textArray)- 1;
+            $menu->persistInvalidEntry($sessionId, $user, $ussdLevel, $pdo);
             echo "CON Invalid Menu\n" . $menu->mainMenuRegistered($user->readName($pdo));
     }
 }

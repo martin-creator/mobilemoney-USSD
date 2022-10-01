@@ -144,6 +144,13 @@ class Menu{
         }
         return join("*", $explodedText);
     }
+
+    public function persistInvalidEntry($sessionId, $user, $ussdLevel, $pdo){
+        //ussdsession table in the database holds all invalid entries
+        $stmt = $pdo->prepare("INSERT INTO ussdsession (sessionID,uid, ussdLevel) values (?,?,?)");
+        $stmt->execute($sessionId, $user->readUserId($pdo), $ussdLevel);
+        $stmt = null;
+    }
 }
 
 

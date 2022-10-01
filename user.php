@@ -72,6 +72,10 @@
         }
 
         public function readUserId($pdo){
+            $stmt = $pdo->prepare("SELECT uid  FROM user WHERE phone=?");
+            $stmt->execute([$this->getPhone()]);
+            $row = $stmt->fetch(); // pick the row that is going to be returned
+            return $row['uid'];
             
         }
 
