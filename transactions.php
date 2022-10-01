@@ -39,6 +39,27 @@
 
         public function withDrawCash($pdo, $uid, $aid, $newBalance){
 
+            $pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, FALSE);
+
+            try{
+                $pdo->beginTransaction();
+                //prepare queries
+                $stmtT = $pdo->prepare("INSERT INTO transaction (amount, uid, aid, ttype) values(?,?,?,?)");
+                $stmtU = $pdo->prepare("UPDATE user SET balance=? WHERE  uid=? ");
+
+                //execute queries
+                $stmtT->execute([$this->getAmount(), $uid, $aid, $this->getTType()]);
+                $stmtU->execute([$newBalance, $uid]); //update agent balance
+               
+
+                $pdo->commit();
+
+            }catch(Exception $e){
+                $pdo->rollback();
+                echo $e->getMessage();
+                return "An error was encountered";
+            }
+
         }
     }
 
