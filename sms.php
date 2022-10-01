@@ -28,7 +28,7 @@ class Sms
         $result = $sms->send([
             'to'      => $this->getPhone(),
             'message' => $message,
-            'from'    => Util::$SMS_SHORTCODE,
+            'from'    => Util::$COMPANY_NAME,
             //'keyword' => Util::$SMS_SHORTCODE_KEYWORD
         ]);
         return $result;

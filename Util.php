@@ -31,6 +31,6 @@ class Util
     //static $SMS_SHORTCODE = "";//sandbox
     static $SMS_SHORTCODE = "25625";//prod.
     static $SMS_SHORTCODE_KEYWORD = ""; //prod.
-    static $COMPANY_NAME = " Martin Mobile";
+    static $COMPANY_NAME = "MartinM0202";
 }
 
