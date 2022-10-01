@@ -1,7 +1,7 @@
 <?php
 class Util{
     //DB variable
-    static $DB_NAME = "ussdsms";
+    static $DB_NAME = "momoussd";
     static $DB_USER = "root";
     static $DB_USER_PASS = "";
     static $SERVER_NAME = "localhost";

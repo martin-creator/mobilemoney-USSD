@@ -31,7 +31,7 @@ class Agent{
         $stmt->execute([$this->getNumber()]);
         $row = $stmt->fetch();
         if($row == null){
-            return $row['name'];
+            return $row['name']?? 'default value';
         }else{
             return false;
         }
@@ -43,7 +43,7 @@ class Agent{
         $row = $stmt->fetch();
 
         if($row == null){
-            return $row['aid'];
+            return $row['aid']?? 'default value';
         }else{
             return false;
         }

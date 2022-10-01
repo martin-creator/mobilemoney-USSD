@@ -3,6 +3,7 @@ include_once 'util.php';
 include_once 'user.php';
 //include_once 'util.php';
 include_once 'transactions.php';
+include_once 'agent.php';
 
 class Menu{
     protected $text;
@@ -114,7 +115,7 @@ class Menu{
 
     }
 
-    public function withdrawMoneyMenu($textArray,$sessionId, $user, $pdo){
+    public function withdrawMoneyMenu($textArray, $user, $pdo, $sessionId){
         $level = count($textArray);
         if($level == 1){
             echo "CON Enter agent number";
@@ -123,10 +124,34 @@ class Menu{
         }else if($level == 3){
             echo "CON Enter yout PIN";
         }else if($level == 4){
-            echo "CON Withdraw" . $textArray[2].  "from agent ". $textArray[1]. "\n 1. Confirm\n 2. Cancel\n";
+            $agent = new Agent($textArray[1]); // not good pratice
+            $agentName = $agent->readNameByNumber($pdo);
+            echo "CON Withdraw" . $textArray[2].  "from agent ". $agentName. "\n 1. Confirm\n 2. Cancel\n";
         }else if($level == 5 && $textArray[4] == 1){
             // confirm
-            echo "END Your request is being processed";
+            $user->setPin($textArray[3]);
+            if($user->correctPin($pdo) == false){
+                echo " END Wrong PIN"; // or send an SMS
+                return;
+            }
+
+            if ($user->checkBalance($pdo) < $textArray[2] + Util::$TRANSACTION_FEE){
+                echo "END You have insufficient funds";
+                return;
+            }
+
+            $agent = new Agent($textArray[1]);
+            $agentName = $agent->readNameByNumber($pdo);
+            $ttype = "withdraw";
+            $txn =  new Transaction($textArray[2], $ttype);
+            $newBalance = $user->checkBalance($pdo) - $textArray[2] - Util::$TRANSACTION_FEE;
+            $result = $txn->withDrawCash($pdo, $user->readUserId($pdo), $agent->readIdByNumber($pdo), $newBalance);
+            if ($result == true){
+                echo "END Your request is being processed";
+            }else{
+                echo "END ". $result;
+            }
+           
         }else if($level == 5 && $textArray[4] == 2){
             echo "END Thank you!";
         }else{
@@ -216,6 +241,3 @@ class Menu{
         return Util::$COUNTRY_CODE . substr($phone, 1);
     }
 }
-
-
-?>

@@ -45,7 +45,7 @@ if ($text == "" && $user->isUserRegistered($pdo)) {
             $menu->sendMoneyMenu($textArray, $user, $pdo, $sessionId);
             break;
         case 2:
-            $menu->withdrawMoneyMenu($textArray, $sessionId, $user, $pdo);
+            $menu->withdrawMoneyMenu($textArray, $user, $pdo, $sessionId);
             break;
         case 3:
            $menu->checkBalanceMenu($textArray, $user, $pdo); 

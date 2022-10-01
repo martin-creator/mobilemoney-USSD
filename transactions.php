@@ -53,9 +53,10 @@
                
 
                 $pdo->commit();
+                return true;
 
             }catch(Exception $e){
-                $pdo->rollback();
+                $pdo->rollBack();
                 echo $e->getMessage();
                 return "An error was encountered";
             }
